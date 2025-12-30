@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "product-table",
+@Table(name = "product_table",
 uniqueConstraints = {
         @UniqueConstraint(name = "sku_unique", columnNames = {"sku"}),
         @UniqueConstraint(name="title_price_unique", columnNames = {"title_x", "price"})
@@ -25,7 +25,7 @@ uniqueConstraints = {
         @Index(name = "sku_index", columnList = "sku"),
         }
 )
-public class Product {
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
