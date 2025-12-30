@@ -31,7 +31,11 @@ public class ProductController {
 //    }
 @GetMapping
     public List<ProductEntity> getAllProducts(@RequestParam(defaultValue = "id") String sortBy) {
-        return productRepository.findBy(Sort.by(sortBy));
+        return productRepository.findBy(Sort.by(Sort.Direction.DESC, sortBy, "price", "quantity"));
+        // here we are sorting in descending order based on sortBy parameter
+        // if sortBy is same for multiple records, then we are further sorting by price and quantity
+        // this way we can have dynamic sorting based on request parameter
+    
     }
 }
 
