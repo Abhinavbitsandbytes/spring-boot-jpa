@@ -2,6 +2,9 @@ package com.example.abhinavJpaTutorial.jpatuts.controllers;
 
 import com.example.abhinavJpaTutorial.jpatuts.entities.ProductEntity;
 import com.example.abhinavJpaTutorial.jpatuts.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,28 +17,107 @@ import java.util.List;
 @RequestMapping(path = "/products")
 public class ProductController {
 
+    private final int PAGE_SIZE = 5;
+
     private final ProductRepository productRepository;
 
     public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-//    @GetMapping
+    //    @GetMapping
 //    public List<ProductEntity> getAllProducts2() {
 //        return productRepository.findByOrderByPrice();
-        // ordering products by price in ascending order
-        // but we are restricted upon type of filtering we want
-        // if you want to orderby title or any other field, you need to create separate methods in repository
-        // to overcome this limitation, we should use sort parameter in query methods
-        //
+    // ordering products by price in ascending order
+    // but we are restricted upon type of filtering we want
+    // if you want to orderby title or any other field, you need to create separate methods in repository
+    // to overcome this limitation, we should use sort parameter in query methods
+    //
 //    }
-@GetMapping
-    public List<ProductEntity> getAllProducts(@RequestParam(defaultValue = "id") String sortBy) {
-        return productRepository.findBy(Sort.by(Sort.Direction.DESC, sortBy, "price", "quantity"));
-        // here we are sorting in descending order based on sortBy parameter
-        // if sortBy is same for multiple records, then we are further sorting by price and quantity
-        // this way we can have dynamic sorting based on request parameter
-    
+    @GetMapping
+    public Page<ProductEntity> getAllProducts(
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "1") Integer pageNumber) {
+
+        Pageable pageable = PageRequest.of(pageNumber, PAGE_SIZE);
+        return productRepository.findAll(pageable);
+
+//        url = "http://localhost:8080/products?sortBy=price"
+                //output
+        //{
+        //"content": [
+        //{
+        //"id": 6,
+        //"sku": "lays789",
+        //"title": "Lays Chips",
+        //"price": 25,
+        //"quantity": 2,
+        //"createdAt": null,
+        //"updatedAt": null
+        //},
+        //{
+        //"id": 7,
+        //"sku": "kitkat456",
+        //"title": "KitKat",
+        //"price": 13.7,
+        //"quantity": 8,
+        //"createdAt": null,
+        //"updatedAt": null
+        //},
+        //{
+        //"id": 8,
+        //"sku": "sprite111",
+        //"title": "Sprite",
+        //"price": 29.9,
+        //"quantity": 5,
+        //"createdAt": null,
+        //"updatedAt": null
+        //},
+        //{
+        //"id": 9,
+        //"sku": "fanta222",
+        //"title": "Fanta",
+        //"price": 19.4,
+        //"quantity": 7,
+        //"createdAt": null,
+        //"updatedAt": null
+        //},
+        //{
+        //"id": 10,
+        //"sku": "twix333",
+        //"title": "Twix",
+        //"price": 22.5,
+        //"quantity": 9,
+        //"createdAt": null,
+        //"updatedAt": null
+        //}
+        //],
+        //"empty": false,
+        //"first": false,
+        //"last": false,
+        //"number": 1,
+        //"numberOfElements": 5,
+        //"pageable": {
+        //"offset": 5,
+        //"pageNumber": 1,
+        //"pageSize": 5,
+        //"paged": true,
+        //"sort": {
+        //"empty": true,
+        //"sorted": false,
+        //"unsorted": true
+        //},
+        //"unpaged": false
+        //},
+        //"size": 5,
+        //"sort": {
+        //"empty": true,
+        //"sorted": false,
+        //"unsorted": true
+        //},
+        //"totalElements": 24,
+        //"totalPages": 5
+        //}
     }
 }
 
