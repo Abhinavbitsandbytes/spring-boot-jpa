@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 class JpaTutorialApplicationTests {
@@ -36,6 +37,13 @@ class JpaTutorialApplicationTests {
 	void getRepository() {
 		List<ProductEntity> entities = productRepository.findByTitle("pepsi");
 		System.out.println(entities);
+	}
+
+	@Test
+	void getSingleFromRepository() {
+		Optional<ProductEntity> productEntity = productRepository
+				.findByTitleAndPrice("Peps", BigDecimal.valueOf(14.4));
+		productEntity.ifPresent(System.out::println);
 	}
 
 //	output
@@ -68,5 +76,7 @@ class JpaTutorialApplicationTests {
 	// 3. You can combine multiple properties using And, Or (e.g., findByTitleAndPrice)
 	// 4. Use comparison keywords like LessThan, GreaterThan, Like, Between (e.g., findByPriceLessThan)
 	// 5. Spring Data JPA will automatically generate the query based on the method name and parameters.
+
+
 
 }
