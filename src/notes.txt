@@ -1,0 +1,36 @@
+Common hibernate configurations
+
+1 - spring.jpa.hibernate.ddl-auto=update/create/validate/create-drop/none
+    ddl - data definition language. It contains commands like create, alter, drop etc. which can be used to define or modify database structure.
+    update - It will update the database schema according to the entity classes without dropping any existing data.
+    create - It will create the database schema according to the entity classes, dropping any existing data.
+    validate - It will validate the database schema against the entity classes, throwing an error if there are discrepancies.
+    create-drop - It will create the database schema according to the entity classes at application startup and drop it when the application shuts down.
+    none - No action will be performed on the database schema.
+
+    In production environments, it's common to use 'validate' or 'none' to prevent accidental data loss.
+    we should avoid using 'create' or 'create-drop' in production as they can lead to data loss.
+
+2 - spring.jpa.show-sql=true/false
+    This property controls whether Hibernate will log the SQL statements it generates to the console.
+    true - SQL statements will be logged to the console.
+    false - SQL statements will not be logged.
+    This is useful for debugging and understanding the queries being executed by Hibernate.
+
+3 - spring.jpa.properties.hibernate.format_sql=true/false
+    This property controls whether the SQL statements logged to the console are formatted for better readability.
+    true - SQL statements will be formatted with line breaks and indentation.
+    false - SQL statements will be logged in a single line without formatting.
+    This is particularly useful when 'spring.jpa.show-sql' is set to true, as it makes the logged SQL easier to read and understand.
+
+4 - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.DialectClass
+    This property specifies the SQL dialect that Hibernate should use to communicate with the database.
+    The dialect determines how Hibernate generates SQL queries for a specific database.
+    Examples of dialect classes:
+    - org.hibernate.dialect.MySQLDialect for MySQL databases.
+    - org.hibernate.dialect.PostgreSQLDialect for PostgreSQL databases.
+    - org.hibernate.dialect.OracleDialect for Oracle databases.
+    - org.hibernate.dialect.SQLServerDialect for Microsoft SQL Server databases.
+    Specifying the correct dialect is important for ensuring that Hibernate generates compatible SQL for the target database
+
+    it is optional as Spring Boot can often auto-detect the dialect based on the database driver in use.
